@@ -23,10 +23,6 @@
 
 	worker = new Worker('./worker/insertableStream.js');
 
-	worker.onmessage = function (e) {
-		ctx.transferFromImageBitmap(e.data.imageBitmap);
-	}
-
 	async function start() {
 		try {
 			userStream = await getUserStream();

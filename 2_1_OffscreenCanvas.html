@@ -13,7 +13,7 @@
 </body>
 <script src="common/stat.js"></script>
 <script type="module">
-	import { getUserStream, getScreenStream, WIDTH, HEIGHT } from "./common/common.js";
+	import { getUserStream, getScreenStream, CONFIG, createImageCapture } from "./common/common.js";
 
 	let userStream, screenStream, worker, userCapture, screenCapture;
 
@@ -22,8 +22,8 @@
 	document.getElementById('btn').addEventListener('click', () => { start() });
 
 	const canvas = document.createElement('canvas');
-	canvas.width = WIDTH;
-	canvas.height = HEIGHT;
+	canvas.width = CONFIG.WIDTH;
+	canvas.height = CONFIG.HEIGHT;
 	const ctx = canvas.getContext('2d');
 	worker = new Worker('./worker/offscreenCanvas.js');
 	worker.postMessage({ action: 'init' });
@@ -36,8 +36,8 @@
 		try {
 			userStream = await getUserStream();
 			screenStream = await getScreenStream();
-			userCapture = new ImageCapture(userStream.getVideoTracks()[0]);
-      screenCapture = new ImageCapture(screenStream.getVideoTracks()[0]);
+			userCapture = createImageCapture(userStream);
+      screenCapture = createImageCapture(screenStream);
 
       await render();
 
