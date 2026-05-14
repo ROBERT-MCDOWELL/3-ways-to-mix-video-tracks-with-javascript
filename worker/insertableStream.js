@@ -1,7 +1,9 @@
-const WIDTH = 1920;
-const HEIGHT = 1080;
-let offscreen = new OffscreenCanvas(WIDTH, HEIGHT);
-let ctx = offscreen.getContext('2d');
+const CONFIG = Object.freeze({
+	WIDTH: 1920,
+	HEIGHT: 1080
+});
+
+let offscreen, ctx;
 
 onmessage = function (e) {
 	const { cameraReadable, screenReadable, mixedWritable } = e.data;
@@ -11,6 +13,7 @@ onmessage = function (e) {
 function mix(cameraReadable, screenReadable, mixedWritable) {
 	const screenReader = screenReadable.getReader();
 	let screenFrame;
+	
 	const transformer = new TransformStream({
 		async transform(cameraFrame, controller) {
 			screenReader.read().then(frame => {
@@ -19,10 +22,11 @@ function mix(cameraReadable, screenReadable, mixedWritable) {
 				}
 				screenFrame = frame.value;
 			});
+			
 			if (screenFrame) {
-				ctx.drawImage(screenFrame, 0, 0, WIDTH, HEIGHT);
+				ctx.drawImage(screenFrame, 0, 0, CONFIG.WIDTH, CONFIG.HEIGHT);
 			}
-			ctx.drawImage(cameraFrame, WIDTH / 2, HEIGHT / 2, WIDTH / 2, HEIGHT / 2);
+			ctx.drawImage(cameraFrame, CONFIG.WIDTH / 2, CONFIG.HEIGHT / 2, CONFIG.WIDTH / 2, CONFIG.HEIGHT / 2);
 
 			const mixedFrame = new VideoFrame(offscreen, { timestamp: cameraFrame.timestamp });
 			cameraFrame.close();

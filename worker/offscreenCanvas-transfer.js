@@ -1,5 +1,8 @@
-const WIDTH = 1920;
-const HEIGHT = 1080;
+const CONFIG = Object.freeze({
+	WIDTH: 1920,
+	HEIGHT: 1080
+});
+
 let ctx;
 
 onmessage = function (e) {
@@ -10,8 +13,8 @@ onmessage = function (e) {
 			ctx = offscreen.getContext("2d");
 			break;
 		case 'render':
-			ctx.drawImage(screen, 0, 0, WIDTH, HEIGHT);
-			ctx.drawImage(user, WIDTH/2, HEIGHT/2, WIDTH/2, HEIGHT/2);
+			ctx.drawImage(screen, 0, 0, CONFIG.WIDTH, CONFIG.HEIGHT);
+			ctx.drawImage(user, CONFIG.WIDTH/2, CONFIG.HEIGHT/2, CONFIG.WIDTH/2, CONFIG.HEIGHT/2);
 			break;
 		default:
 			break;

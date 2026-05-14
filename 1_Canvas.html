@@ -13,7 +13,7 @@
 </body>
 <script src="common/stat.js"></script>
 <script type="module">
-  import { getUserStream, getScreenStream, WIDTH, HEIGHT } from "./common/common.js";
+  import { getUserStream, getScreenStream, CONFIG } from "./common/common.js";
 
   let userVideo, screenVideo;
 
@@ -22,8 +22,8 @@
 	document.getElementById("stat").appendChild(stats.domElement);
 
 	const canvas = document.createElement('canvas');
-	canvas.width = WIDTH;
-	canvas.height = HEIGHT;
+	canvas.width = CONFIG.WIDTH;
+	canvas.height = CONFIG.HEIGHT;
 	const ctx = canvas.getContext('2d');
 
   userVideo = document.createElement('video');
@@ -50,8 +50,8 @@
 
 	function render() {
 		stats.begin();
-		ctx.drawImage(screenVideo, 0, 0, WIDTH, HEIGHT);
-		ctx.drawImage(userVideo, WIDTH/2, HEIGHT/2, WIDTH/2, HEIGHT/2);
+		ctx.drawImage(screenVideo, 0, 0, CONFIG.WIDTH, CONFIG.HEIGHT);
+		ctx.drawImage(userVideo, CONFIG.WIDTH/2, CONFIG.HEIGHT/2, CONFIG.WIDTH/2, CONFIG.HEIGHT/2);
 		stats.end();
 		requestAnimationFrame(render);
 	}
